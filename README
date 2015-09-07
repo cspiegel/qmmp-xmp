@@ -1,0 +1,28 @@
+This is a plugin for Qmmp which supports module (tracker) files using
+libxmp (http://xmp.sf.net/).
+
+The following packages are required, including development headers,
+which some vendors split into separate packages:
+
+• qmmp
+• libxmp
+• qt4
+
+To build, run Qt4's qmake (often installed as qmake-qt4) and then build
+with make:
+
+$ qmake-qt4
+$ make
+
+To install:
+
+$ make install
+
+This installs the plugin into Qmmp's input plugin directory.  To install
+to a staging area, such as for packaging:
+
+$ make install INSTALL_ROOT=/path/to/staging
+
+Note: As of 0.9.0, qmmp-plugin-pack includes a plugin based on libxmp,
+rendering this plugin redundant.  However, I'd already written this and
+was planning on releasing it, so here it is.
