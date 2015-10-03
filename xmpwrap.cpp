@@ -195,12 +195,12 @@ XMPWrap::Frame XMPWrap::play_frame()
 
   if(xmp_play_frame(ctx) != 0)
   {
-    return Frame(0, 0);
+    return Frame(0, nullptr);
   }
   xmp_get_frame_info(ctx, &fi);
   if(fi.loop_count > 0)
   {
-    return Frame(0, 0);
+    return Frame(0, nullptr);
   }
 
   return Frame(fi.buffer_size, fi.buffer);
