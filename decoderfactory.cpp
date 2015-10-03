@@ -76,11 +76,7 @@ Decoder *XMPDecoderFactory::create(const QString &path, QIODevice *)
   return new XMPDecoder(path);
 }
 
-#if QMMP_VERSION_MAJOR == 0 && QMMP_VERSION_MINOR == 8
-QList<FileInfo *> XMPDecoderFactory::createPlayList(const QString &filename, bool use_metadata)
-#elif QMMP_VERSION_MAJOR == 0 && QMMP_VERSION_MINOR == 9
 QList<FileInfo *> XMPDecoderFactory::createPlayList(const QString &filename, bool use_metadata, QStringList *)
-#endif
 {
   QList<FileInfo *> list;
 
@@ -133,5 +129,3 @@ QTranslator *XMPDecoderFactory::createTranslator(QObject *)
 {
   return nullptr;
 }
-
-Q_EXPORT_PLUGIN2(cas-xmp, XMPDecoderFactory)

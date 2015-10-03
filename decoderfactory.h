@@ -44,6 +44,7 @@
 class XMPDecoderFactory : public QObject, DecoderFactory
 {
   Q_OBJECT
+  Q_PLUGIN_METADATA(IID "org.qmmp.qmmp.DecoderFactoryInterface.1.0")
   Q_INTERFACES(DecoderFactory)
 
   public:
@@ -51,11 +52,7 @@ class XMPDecoderFactory : public QObject, DecoderFactory
     bool canDecode(QIODevice *) const;
     const DecoderProperties properties() const;
     Decoder *create(const QString &, QIODevice *);
-#if QMMP_VERSION_MAJOR == 0 && QMMP_VERSION_MINOR == 8
-    QList<FileInfo *> createPlayList(const QString &, bool);
-#elif QMMP_VERSION_MAJOR == 0 && QMMP_VERSION_MINOR == 9
     QList<FileInfo *> createPlayList(const QString &, bool, QStringList *);
-#endif
     MetaDataModel *createMetaDataModel(const QString &, QObject * = 0);
     void showSettings(QWidget *);
     void showAbout(QWidget *);

@@ -1,17 +1,17 @@
-This is a plugin for Qmmp which supports module (tracker) files using
-libxmp (http://xmp.sf.net/).
+This is a plugin for Qmmp (1.0.0 or greater) which supports module
+(tracker) files using libxmp (http://xmp.sf.net/).
 
 The following packages are required, including development headers,
 which some vendors split into separate packages:
 
 • qmmp
 • libxmp
-• qt4
+• qt5
 
-To build, run Qt4's qmake (often installed as qmake-qt4) and then build
+To build, run Qt5's qmake (often installed as qmake-qt5) and then build
 with make:
 
-$ qmake-qt4
+$ qmake-qt5
 $ make
 
 To install:

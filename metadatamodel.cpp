@@ -74,8 +74,8 @@ void XMPMetaDataModel::fill_in_audio_properties(XMPWrap &xmp)
 
 void XMPMetaDataModel::fill_in_descriptions(XMPWrap &xmp)
 {
-  ap.insert(tr("Title"), Qt::escape(QString::fromStdString(xmp.title())));
-  ap.insert(tr("Format"), Qt::escape(QString::fromStdString(xmp.format())));
+  ap.insert(tr("Title"), QString::fromStdString(xmp.title()).toHtmlEscaped());
+  ap.insert(tr("Format"), QString::fromStdString(xmp.format()).toHtmlEscaped());
   ap.insert(tr("Patterns"), QString::number(xmp.pattern_count()));
   ap.insert(tr("Tracks"), QString::number(xmp.track_count()));
   ap.insert(tr("Instruments"), QString::number(xmp.instrument_count()));
