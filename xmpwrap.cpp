@@ -110,7 +110,7 @@ XMPWrap::XMPWrap(std::string filename, int panning_amplitude) : ctx(xmp_create_c
     samples_.push_back(mod->xxs[i].name);
   }
 
-  if(module_info.comment != 0)
+  if(module_info.comment != nullptr)
   {
     comment_ = module_info.comment;
   }
