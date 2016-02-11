@@ -125,7 +125,7 @@ XMPWrap::~XMPWrap()
 
 bool XMPWrap::can_play(std::string filename)
 {
-  return xmp_test_module(const_cast<char *>(filename.c_str()), NULL) == 0;
+  return xmp_test_module(const_cast<char *>(filename.c_str()), nullptr) == 0;
 }
 
 std::vector<XMPWrap::Interpolator> XMPWrap::get_interpolators()
