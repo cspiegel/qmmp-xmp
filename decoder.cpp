@@ -66,7 +66,7 @@ int XMPDecoder::bitrate()
   return xmp->channel_count();
 }
 
-qint64 XMPDecoder::read(char *audio, qint64 max_size)
+qint64 XMPDecoder::read(unsigned char *audio, qint64 max_size)
 {
   qint64 copied;
 
@@ -92,7 +92,7 @@ qint64 XMPDecoder::read(char *audio, qint64 max_size)
   return copied + copy(audio, max_size);
 }
 
-qint64 XMPDecoder::copy(char *audio, qint64 max_size)
+qint64 XMPDecoder::copy(unsigned char *audio, qint64 max_size)
 {
   qint64 to_copy;
 
