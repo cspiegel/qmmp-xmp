@@ -56,12 +56,12 @@ bool XMPDecoder::initialize()
   return true;
 }
 
-qint64 XMPDecoder::totalTime()
+qint64 XMPDecoder::totalTime() const
 {
   return xmp->duration();
 }
 
-int XMPDecoder::bitrate()
+int XMPDecoder::bitrate() const
 {
   return xmp->channel_count();
 }
