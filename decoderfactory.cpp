@@ -41,11 +41,6 @@
 #include "settingsdialog.h"
 #include "xmpwrap.h"
 
-bool XMPDecoderFactory::supports(const QString &source) const
-{
-  return XMPWrap::can_play(source.toUtf8().constData());
-}
-
 bool XMPDecoderFactory::canDecode(QIODevice *) const
 {
   return false;
