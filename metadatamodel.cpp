@@ -44,7 +44,7 @@ XMPMetaDataModel::XMPMetaDataModel(const QString &path, QObject *parent) :
     fill_in_audio_properties(xmp);
     fill_in_descriptions(xmp);
   }
-  catch(XMPWrap::InvalidFile)
+  catch(const XMPWrap::InvalidFile &)
   {
   }
 }

@@ -92,7 +92,7 @@ QList<FileInfo *> XMPDecoderFactory::createPlayList(const QString &filename, boo
 
     list << file_info;
   }
-  catch(XMPWrap::InvalidFile)
+  catch(const XMPWrap::InvalidFile &)
   {
   }
 

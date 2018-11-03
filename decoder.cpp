@@ -46,7 +46,7 @@ bool XMPDecoder::initialize()
   {
     xmp = std::unique_ptr<XMPWrap>(new XMPWrap(path.toUtf8().constData(), settings.get_panning_amplitude()));
   }
-  catch(XMPWrap::InvalidFile)
+  catch(const XMPWrap::InvalidFile &)
   {
     return false;
   }
