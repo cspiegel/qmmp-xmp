@@ -48,14 +48,14 @@ class XMPDecoderFactory : public QObject, DecoderFactory
   Q_INTERFACES(DecoderFactory)
 
   public:
-    bool canDecode(QIODevice *) const;
-    const DecoderProperties properties() const;
-    Decoder *create(const QString &, QIODevice *);
-    QList<FileInfo *> createPlayList(const QString &, bool, QStringList *);
-    MetaDataModel *createMetaDataModel(const QString &, QObject * = 0);
-    void showSettings(QWidget *);
-    void showAbout(QWidget *);
-    QTranslator *createTranslator(QObject *);
+    bool canDecode(QIODevice *) const override;
+    DecoderProperties properties() const override;
+    Decoder *create(const QString &, QIODevice *) override;
+    QList<TrackInfo *> createPlayList(const QString &, TrackInfo::Parts, QStringList *) override;
+    MetaDataModel *createMetaDataModel(const QString &, bool) override;
+    void showSettings(QWidget *) override;
+    void showAbout(QWidget *) override;
+    QString translation() const override;
 
   private:
     XMPSettings settings;

@@ -14,9 +14,10 @@ unix {
   PKGCONFIG += qmmp libxmp
 
   QMMP_PREFIX = $$system(pkg-config qmmp --var=prefix)
+  PLUGIN_DIR = $$system(pkg-config qmmp --var=plugindir)/Input
   INCLUDEPATH += $${QMMP_PREFIX}/include
 
-  plugin.path = $${QMMP_PREFIX}/lib/qmmp/Input
+  plugin.path = $${PLUGIN_DIR}
   plugin.files = lib$${TARGET}.so
   INSTALLS += plugin
 }

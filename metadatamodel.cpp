@@ -35,13 +35,13 @@
 #include "metadatamodel.h"
 #include "xmpwrap.h"
 
-XMPMetaDataModel::XMPMetaDataModel(const QString &path, QObject *parent) :
-  MetaDataModel(parent)
+XMPMetaDataModel::XMPMetaDataModel(const QString &path) :
+  MetaDataModel(true)
 {
   try
   {
     XMPWrap xmp(path.toUtf8().constData());
-    fill_in_audio_properties(xmp);
+    fill_in_extra_properties(xmp);
     fill_in_descriptions(xmp);
   }
   catch(const XMPWrap::InvalidFile &)
@@ -49,7 +49,7 @@ XMPMetaDataModel::XMPMetaDataModel(const QString &path, QObject *parent) :
   }
 }
 
-void XMPMetaDataModel::fill_in_audio_properties(XMPWrap &xmp)
+void XMPMetaDataModel::fill_in_extra_properties(XMPWrap &xmp)
 {
   QString text;
 
@@ -57,32 +57,30 @@ void XMPMetaDataModel::fill_in_audio_properties(XMPWrap &xmp)
   {
     text += QString::fromStdString(s) + "\n";
   }
-  desc.insert(tr("Instruments"), text);
+  desc << MetaDataItem(tr("Instruments"), text);
 
   text = "";
   for(const std::string &s : xmp.samples())
   {
     text += QString::fromStdString(s) + "\n";
   }
-  desc.insert(tr("Samples"), text);
+  desc << MetaDataItem(tr("Samples"), text);
 
   if(!xmp.comment().empty())
   {
-    desc.insert(tr("Comment"), QString::fromStdString(xmp.comment()));
+    desc << MetaDataItem(tr("Comment"), QString::fromStdString(xmp.comment()));
   }
 }
 
 void XMPMetaDataModel::fill_in_descriptions(XMPWrap &xmp)
 {
-  ap.insert(tr("Title"), QString::fromStdString(xmp.title()).toHtmlEscaped());
-  ap.insert(tr("Format"), QString::fromStdString(xmp.format()).toHtmlEscaped());
-  ap.insert(tr("Patterns"), QString::number(xmp.pattern_count()));
-  ap.insert(tr("Tracks"), QString::number(xmp.track_count()));
-  ap.insert(tr("Instruments"), QString::number(xmp.instrument_count()));
-  ap.insert(tr("Samples"), QString::number(xmp.sample_count()));
-  ap.insert(tr("Initial speed"), QString::number(xmp.initial_speed()));
-  ap.insert(tr("Initial BPM"), QString::number(xmp.initial_bpm()));
-  ap.insert(tr("Length"), tr("%1 patterns").arg(xmp.length()));
+  ap << MetaDataItem(tr("Patterns"), QString::number(xmp.pattern_count()));
+  ap << MetaDataItem(tr("Tracks"), QString::number(xmp.track_count()));
+  ap << MetaDataItem(tr("Instruments"), QString::number(xmp.instrument_count()));
+  ap << MetaDataItem(tr("Samples"), QString::number(xmp.sample_count()));
+  ap << MetaDataItem(tr("Initial speed"), QString::number(xmp.initial_speed()));
+  ap << MetaDataItem(tr("Initial BPM"), QString::number(xmp.initial_bpm()));
+  ap << MetaDataItem(tr("Length"), tr("%1 patterns").arg(xmp.length()));
 
   QString channels = QString::number(xmp.channel_count()) + " [ ";
   for(const char &pan : xmp.channel_pan())
@@ -91,34 +89,19 @@ void XMPMetaDataModel::fill_in_descriptions(XMPWrap &xmp)
     channels += ' ';
   }
   channels += " ]";
-  ap.insert(tr("Channels"), channels);
-
-  int duration = xmp.duration() / 1000;
-  if(duration < 60 * 60)
-  {
-    ap.insert(tr("Duration"), QString("%1:%2").
-                                  arg(duration / 60).
-                                  arg(duration % 60, 2, 10, QLatin1Char('0')));
-  }
-  else
-  {
-    ap.insert(tr("Duration"), QString("%1:%2:%3").
-                                  arg(duration / 3600).
-                                  arg((duration / 60) % 60, 2, 10, QLatin1Char('0')).
-                                  arg(duration % 60, 2, 10, QLatin1Char('0')));
-  }
+  ap << MetaDataItem(tr("Channels"), channels);
 }
 
 XMPMetaDataModel::~XMPMetaDataModel()
 {
 }
 
-QHash<QString, QString> XMPMetaDataModel::audioProperties()
+QList<MetaDataItem> XMPMetaDataModel::extraProperties() const
 {
   return ap;
 }
 
-QHash<QString, QString> XMPMetaDataModel::descriptions()
+QList<MetaDataItem> XMPMetaDataModel::descriptions() const
 {
   return desc;
 }

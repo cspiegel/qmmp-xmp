@@ -32,7 +32,6 @@
 #include <QTranslator>
 #include <QtPlugin>
 
-#include <qmmp/fileinfo.h>
 #include <qmmp/qmmp.h>
 
 #include "decoderfactory.h"
@@ -46,7 +45,7 @@ bool XMPDecoderFactory::canDecode(QIODevice *) const
   return false;
 }
 
-const DecoderProperties XMPDecoderFactory::properties() const
+DecoderProperties XMPDecoderFactory::properties() const
 {
   DecoderProperties properties;
 
@@ -71,37 +70,48 @@ Decoder *XMPDecoderFactory::create(const QString &path, QIODevice *)
   return new XMPDecoder(path);
 }
 
-QList<FileInfo *> XMPDecoderFactory::createPlayList(const QString &filename, bool use_metadata, QStringList *)
+QList<TrackInfo *> XMPDecoderFactory::createPlayList(const QString &filename, TrackInfo::Parts parts, QStringList *)
 {
-  QList<FileInfo *> list;
+  QList<TrackInfo *> list;
 
-  try
+  if(parts & (TrackInfo::MetaData | TrackInfo::Properties))
   {
-    XMPWrap xmp(filename.toUtf8().constData());
-    FileInfo *file_info = new FileInfo(filename);
-
-    file_info->setLength(xmp.duration() / 1000);
-    if(settings.get_use_filename())
+    try
     {
-      file_info->setMetaData(Qmmp::TITLE, filename.section('/', -1));
-    }
-    else if(use_metadata && !xmp.title().empty())
-    {
-      file_info->setMetaData(Qmmp::TITLE, QString::fromStdString(xmp.title()));
-    }
+      XMPWrap xmp(filename.toUtf8().constData());
+      TrackInfo *file_info = new TrackInfo(filename);
 
-    list << file_info;
-  }
-  catch(const XMPWrap::InvalidFile &)
-  {
+      if(parts & TrackInfo::Properties)
+      {
+        file_info->setValue(Qmmp::FORMAT_NAME, QString::fromStdString(xmp.format()));
+        file_info->setDuration(xmp.duration());
+      }
+
+      if(parts & TrackInfo::MetaData)
+      {
+        if(settings.get_use_filename())
+        {
+          file_info->setValue(Qmmp::TITLE, filename.section('/', -1));
+        }
+        else if(!xmp.title().empty())
+        {
+          file_info->setValue(Qmmp::TITLE, QString::fromStdString(xmp.title()));
+        }
+      }
+
+      list << file_info;
+    }
+    catch(const XMPWrap::InvalidFile &)
+    {
+    }
   }
 
   return list;
 }
 
-MetaDataModel *XMPDecoderFactory::createMetaDataModel(const QString &path, QObject *parent)
+MetaDataModel *XMPDecoderFactory::createMetaDataModel(const QString &path, bool)
 {
-  return new XMPMetaDataModel(path, parent);
+  return new XMPMetaDataModel(path);
 }
 
 void XMPDecoderFactory::showSettings(QWidget *parent)
@@ -120,7 +130,7 @@ void XMPDecoderFactory::showAbout(QWidget *parent)
   QMessageBox::about(parent, title, text);
 }
 
-QTranslator *XMPDecoderFactory::createTranslator(QObject *)
+QString XMPDecoderFactory::translation() const
 {
-  return nullptr;
+  return QString(":/cas-xmp_plugin_");
 }

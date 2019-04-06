@@ -37,20 +37,20 @@
 
 class XMPMetaDataModel : public MetaDataModel
 {
-  Q_OBJECT
+  Q_DECLARE_TR_FUNCTIONS(MPTMetaDataModel)
 
   public:
-    XMPMetaDataModel(const QString &, QObject *);
+    XMPMetaDataModel(const QString &);
     ~XMPMetaDataModel();
-    QHash<QString, QString> audioProperties();
-    QHash<QString, QString> descriptions();
+    QList<MetaDataItem> extraProperties() const override;
+    QList<MetaDataItem> descriptions() const override;
 
   private:
-    void fill_in_audio_properties(XMPWrap &);
+    void fill_in_extra_properties(XMPWrap &);
     void fill_in_descriptions(XMPWrap &);
 
-    QHash<QString, QString> ap;
-    QHash<QString, QString> desc;
+    QList<MetaDataItem> ap;
+    QList<MetaDataItem> desc;
 };
 
 #endif
