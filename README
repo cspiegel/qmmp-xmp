@@ -1,4 +1,4 @@
-This is a plugin for Qmmp (1.2.0 or greater) which supports module
+This is a plugin for Qmmp (1.3.1 or greater) which supports module
 (tracker) files using libxmp (http://xmp.sf.net/).
 
 The following packages are required, including development headers,
