@@ -52,19 +52,26 @@ XMPMetaDataModel::XMPMetaDataModel(const QString &path) :
 void XMPMetaDataModel::fill_in_extra_properties(XMPWrap &xmp)
 {
   QString text;
+  auto is_empty_string = [](const std::string &s) { return s == ""; };
 
-  for(const std::string &s : xmp.instruments())
+  if(!std::all_of(xmp.instruments().begin(), xmp.instruments().end(), is_empty_string))
   {
-    text += QString::fromStdString(s) + "\n";
+    for(const std::string &s : xmp.instruments())
+    {
+      text += QString::fromStdString(s) + "\n";
+    }
+    desc << MetaDataItem(tr("Instruments"), text);
   }
-  desc << MetaDataItem(tr("Instruments"), text);
 
-  text = "";
-  for(const std::string &s : xmp.samples())
+  if(!std::all_of(xmp.samples().begin(), xmp.samples().end(), is_empty_string))
   {
-    text += QString::fromStdString(s) + "\n";
+    text = "";
+    for(const std::string &s : xmp.samples())
+    {
+      text += QString::fromStdString(s) + "\n";
+    }
+    desc << MetaDataItem(tr("Samples"), text);
   }
-  desc << MetaDataItem(tr("Samples"), text);
 
   if(!xmp.comment().empty())
   {

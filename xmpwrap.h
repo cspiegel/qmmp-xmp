@@ -86,20 +86,20 @@ class XMPWrap
     int channels() { return 2; }
     int depth() { return 16; }
     int duration() { return duration_; }
-    std::string title() { return title_; }
-    std::string format() { return format_; }
+    const std::string &title() { return title_; }
+    const std::string &format() { return format_; }
     int pattern_count() { return pattern_count_; }
     int track_count() { return track_count_; }
     int channel_count() { return channel_count_; }
-    std::vector<char> channel_pan() { return channel_pan_; }
+    const std::vector<char> &channel_pan() { return channel_pan_; }
     int instrument_count() { return instrument_count_; }
     int sample_count() { return sample_count_; }
     int initial_speed() { return initial_speed_; }
     int initial_bpm() { return initial_bpm_; }
     int length() { return length_; }
-    std::vector<std::string> instruments() { return instruments_; }
-    std::vector<std::string> samples() { return samples_; }
-    std::string comment() { return comment_; }
+    const std::vector<std::string> &instruments() { return instruments_; }
+    const std::vector<std::string> &samples() { return samples_; }
+    const std::string &comment() { return comment_; }
 
   private:
     xmp_context ctx;
