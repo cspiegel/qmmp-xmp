@@ -15,7 +15,9 @@ unix {
 
   QMMP_PREFIX = $$system(pkg-config qmmp --variable=prefix)
   PLUGIN_DIR = $$system(pkg-config qmmp --variable=plugindir)/Input
-  INCLUDEPATH += $${QMMP_PREFIX}/include
+  LOCAL_INCLUDES = $${QMMP_PREFIX}/include
+  LOCAL_INCLUDES -= $$QMAKE_DEFAULT_INCDIRS
+  INCLUDEPATH += $$LOCAL_INCLUDES
 
   plugin.path = $${PLUGIN_DIR}
   plugin.files = lib$${TARGET}.so
